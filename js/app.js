@@ -24,15 +24,15 @@ const showBonuses = (parentEl, data, err) => {
     `;
 };
 const bonusesEl =document.getElementById('bonuses');
-const loadBonuses = async ()=> {
+const loadBonuses = async (el)=> {
     try {
-        showLoader(bonusesEl);
+        showLoader(el);
         const response = await fetch (`${API_URL}/lection/slow/bonuses`);
         if (!response.ok){
             throw new Error((response.statusText));
         }
         const data=await response.json();
-        showBonuses(bonusesEl,data);
+        showBonuses(el,data);
     }    catch (e){
         console.error(e);
         showBonuses(bonusesEl, null, e);
