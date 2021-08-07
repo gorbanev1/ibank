@@ -13,11 +13,9 @@ const showAccount = (amountEl, numberEl, nameEl, data, err) => {
         `;
         return;
     }
-    // amountEl.innerHTML=`<div>${data.account.amount.toFixed(2)} руб.</div>`;
-    amountEl.innerHTML=`<div>${String(data.account.amount).replace('.',',')}</div>`;
-    //amountEl.innerHTML=`<div>${data.account.amount.replace(/./,",")} руб.</div>`;
-    numberEl.innerHTML=`<div>${data.account.number}</div>`;
-    nameEl.innerHTML=`<div>${data.account.name}</div>`;
+    amountEl.textContent=`${String(data.account.amount).replace('.',',')}`;
+    numberEl.textContent=`${data.account.number}`;
+    nameEl.textContent=`${data.account.name}`;
 };
 const amountEl =document.querySelector('.amount');
 const nameEl = document.querySelector('.name');
