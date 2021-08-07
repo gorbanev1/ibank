@@ -1,6 +1,44 @@
 'use strict';
 
 const API_URL = 'http://localhost:9999/api';
+const showLoader = function (amountEl, nameEl, numberEl) {
+    amountEl.innerHTML = `<div class="loading-indicator"></div>`;
+    nameEl.innerHTML = `<div class="loading-indicator"></div>`;
+    numberEl.innerHTML = `<div class="loading-indicator"></div>`;
+};
+const showAccount = (amountEl,  numberEl, nameEl, data, err) => {
+    if (err){
+        amountEl.innerHTML=`
+        <div>Произошла ошибка</div>
+        `;
+        return;
+    }
+    amountEl.innerHTML=`<div>${data.account.amount.toFixed(2)} руб.</div>`;
+    numberEl.innerHTML=`<div>${data.account.number}</div>`;
+    nameEl.innerHTML=`<div>${data.account.name}</div>`;
+};
+const amountEl =document.querySelector('.amount');
+const nameEl = document.querySelector('.name');
+const numberEl = document.querySelector('.number');
+const loadAccount = async (elAmm, elNmb, elName)=> {
+    try {
+        showLoader(elAmm, elNmb, elName);
+        const response = await fetch (`${API_URL}/hw15`);
+        if (!response.ok){
+            throw new Error((response.statusText));
+        }
+        const data=await response.json();
+        showAccount(elAmm, elNmb, elName, data);
+    }    catch (e){
+        console.error(e);
+        showAccount(elAmm, elNmb, elName, null, e);
+    }
+};
+loadAccount(amountEl,numberEl, nameEl);
+
+
+
+
 // const request = (method, url)=> {
 //     return new Promise((resolve, reject) => {
 //         const xhr = new XMLHttpRequest();
@@ -10,35 +48,6 @@ const API_URL = 'http://localhost:9999/api';
 //         xhr.send();
 //     })
 // }
-const showLoader = function (parentEl) {
-    parentEl.innerHTML = `<div class="loading-indicator"></div>`;
-};
-const showBonuses = (parentEl, data, err) => {
-    if (err){
-        parentEl.innerHTML=`
-        <div>Произошла ошибка</div>
-        `;
-        return;
-    }
-    parentEl.innerHTML=`<div>${data.bonuses.toFixed(2)} руб.</div>
-    `;
-};
-const bonusesEl =document.getElementById('bonuses');
-const loadBonuses = async (el)=> {
-    try {
-        showLoader(el);
-        const response = await fetch (`${API_URL}/lection/slow/bonuses`);
-        if (!response.ok){
-            throw new Error((response.statusText));
-        }
-        const data=await response.json();
-        showBonuses(el,data);
-    }    catch (e){
-        console.error(e);
-        showBonuses(el, null, e);
-    }
-};
-loadBonuses(bonusesEl);
 // showLoader(bonusesEl);
 //
 // fetch(`${API_URL}/lection/slow/bonuses`)
