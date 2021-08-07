@@ -1,15 +1,15 @@
 'use strict';
 
 const API_URL = 'http://localhost:9999/api';
-const request = (method, url)=> {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.onload = (evt) => resolve(evt);
-        xhr.onerror = (evt) => reject(evt);
-        xhr.send();
-    })
-}
+// const request = (method, url)=> {
+//     return new Promise((resolve, reject) => {
+//         const xhr = new XMLHttpRequest();
+//         xhr.open(method, url);
+//         xhr.onload = (evt) => resolve(evt);
+//         xhr.onerror = (evt) => reject(evt);
+//         xhr.send();
+//     })
+// }
 const showLoader = function (parentEl) {
     parentEl.innerHTML = `<div class="loading-indicator"></div>`;
 };
@@ -35,10 +35,10 @@ const loadBonuses = async (el)=> {
         showBonuses(el,data);
     }    catch (e){
         console.error(e);
-        showBonuses(bonusesEl, null, e);
+        showBonuses(el, null, e);
     }
 };
-loadBonuses();
+loadBonuses(bonusesEl);
 // showLoader(bonusesEl);
 //
 // fetch(`${API_URL}/lection/slow/bonuses`)
